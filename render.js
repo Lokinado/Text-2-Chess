@@ -24,7 +24,6 @@ function ConvertTextToBase10(text){
     const exponent = (text.length - i) - 1;
 
     const coeff = lookup.indexOf(letter)
-    console.log(i, coeff, exponent, coeff * (55 ** exponent))
     ret += coeff * (55 ** exponent);
   }
 
