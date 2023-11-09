@@ -2,7 +2,7 @@
   <head>
     <title> Text 2 Chess </title>
     <script src="preload.js"></script>
-    <script defer src="render.js"></script>
+    <script defer src="encode.js"></script>
   </head>
   <body>
     <center>
@@ -12,6 +12,8 @@
 		  </div> 
       <div>
         <canvas id="canvas" width="80px" height="80px"></canvas>
+        <br>
+        <button id="download" onclick="download()" style="visibility: hidden;">Download Chessboard</button>
       </div>
     </center>
   </body>
