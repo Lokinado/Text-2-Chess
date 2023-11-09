@@ -1,7 +1,8 @@
 function ClearCanvas() {
-  const canvas = document.getElementById("canvas");
-  const context = canvas.getContext("2d");
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  const canvas = document.getElementById("canvas")
+  const ctx = canvas.getContext("2d")
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function GetText() {
@@ -20,20 +21,44 @@ function ConvertTextToBase10(text){
   const values = [ ]
 
   for(let i = text.length - 1; i >= 0 ; i--){
-    const letter = text[i];
-    const exponent = (text.length - i) - 1;
+    const letter = text[i]
+    const exponent = (text.length - i) - 1
 
     const coeff = lookup.indexOf(letter)
-    ret += coeff * (55 ** exponent);
+    ret += coeff * (55 ** exponent)
   }
 
-  return ret;
+  return ret
 }
 
 function ConvertNumberToBase13(input){
   return input.toString(13)
 }
 
-async function Enocode() {
-  let input 
+function ChangeTileColor(color){
+  return (color == "#ebecd0") ? "#779556" : "#ebecd0";
+}
+
+async function Encode() {
+  const input = GetText();
+  const chessboardSeed = ConvertNumberToBase13(ConvertTextToBase10(input))
+  const requiredTiles = chessboardSeed.toString().length;
+  const requiredBoardSize = Math.ceil(Math.sqrt(requiredTiles))
+  const actualBoardSize = Math.max(requiredBoardSize, 8) // standard chess board is 8x8
+  const canvasSize = Math.min(window.innerWidth, window.innerHeight) * 0.8
+  const tileSize = canvasSize / actualBoardSize; 
+  const canvas = document.getElementById("canvas")
+  const ctx = canvas.getContext("2d")  
+
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
+
+  ClearCanvas();
+  for(let i = 0 ; i < actualBoardSize; i ++){
+    for(let j = 0 ; j < actualBoardSize; j ++){
+      ctx.fillStyle = ((i+j) % 2 == 0) ? "#ebecd0" : "#779556"
+      ctx.fillRect(j*tileSize,i*tileSize,tileSize,tileSize)
+    } 
+  }
+
 }
