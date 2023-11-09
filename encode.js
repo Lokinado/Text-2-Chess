@@ -1,3 +1,7 @@
+var m_w = 123456789;
+var m_z = 987654321;
+var mask = 0xffffffff;
+
 function ClearCanvas() {
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")
@@ -18,7 +22,6 @@ function ConvertTextToBase10(text){
 
   let ret = 0;
   const lookup = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', ',']
-  const values = [ ]
 
   for(let i = text.length - 1; i >= 0 ; i--){
     const letter = text[i]
@@ -39,6 +42,54 @@ function ChangeTileColor(color){
   return (color == "#ebecd0") ? "#779556" : "#ebecd0";
 }
 
+// Takes any integer
+function seed(i) {
+  m_w = (123456789 + i) & mask;
+  m_z = (987654321 - i) & mask;
+}
+
+// Returns number between 0 (inclusive) and 1.0 (exclusive),
+// just like Math.random().
+function random()
+{
+  m_z = (36969 * (m_z & 65535) + (m_z >> 16)) & mask;
+  m_w = (18000 * (m_w & 65535) + (m_w >> 16)) & mask;
+  var result = ((m_z << 16) + (m_w & 65535)) >>> 0;
+  result /= 4294967296;
+  return result;
+}
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex > 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+function generateSequanceOfTiles(size){
+  seed(1)
+
+  let ret = [];
+  for(let i = 0 ; i < size ; i ++){
+    for(let j = 0 ; j < size ; j ++){
+      ret.push([i,j])
+    }    
+  }
+  shuffle(ret);
+  return ret;
+}
+
 async function Encode() {
   const input = GetText();
   const chessboardSeed = ConvertNumberToBase13(ConvertTextToBase10(input))
@@ -49,6 +100,7 @@ async function Encode() {
   const tileSize = canvasSize / actualBoardSize; 
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")  
+  const tileSequance = generateSequanceOfTiles(actualBoardSize);
 
   canvas.width = canvasSize;
   canvas.height = canvasSize;
@@ -60,5 +112,18 @@ async function Encode() {
       ctx.fillRect(j*tileSize,i*tileSize,tileSize,tileSize)
     } 
   }
+
+  const seedStr = chessboardSeed.toString();
+  for(let i = 0 ; i < requiredTiles ; i ++){
+    const x = tileSequance[i][0];
+    const y = tileSequance[i][1];
+    const state = parseInt(seedStr[i],13);
+    if( state != 0 ){
+      console.log(pawns)
+      ctx.drawImage(pawns[state-1], x*tileSize, y*tileSize,tileSize,tileSize);
+    }
+  }
+
+
 
 }
