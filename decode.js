@@ -112,30 +112,33 @@ function handleFileSelect(event) {
 
         console.log(boardSize);
 
+        const tileSequance = generateSequanceOfTiles(boardSize);
         const tileSize = image.width / boardSize;
 
-        for(let i = 0 ; i < boardSize; i++){
-          for(let j = 0 ; j < boardSize; j++){
-            
-            const x = (j * tileSize); 
-            const y = (i * tileSize);
-            const index = getPixelIndex(x,y,image);
+        console.log(tileSequance)
+        
+        let result = 0;
+        let exponent = 0;
+        for(let i = tileSequance.length - 1; i >= 0 ; i--){
+          const x = (tileSequance[i][0] * tileSize); 
+          const y = (tileSequance[i][1] * tileSize);
+          const index = getPixelIndex(x,y,image);
 
-            //context.fillRect(x,y,1,1);
+          const tileData = context.getImageData(x, y, tileSize, tileSize);
+          const tilePixels = tileData.data;
+          const averageColor = calculateAverageColor(tilePixels);
+          
+          if( averageColor[0] != 235 && averageColor[0] != 119){
+            const coef = checkAverageColor(averageColor) + 1;
+            result += coef * 13 ** exponent;
+          }
 
-            const red = pixels[index];
-            const green = pixels[index + 1];
-            const blue = pixels[index + 2];
-
-            const tileData = context.getImageData(x, y, tileSize, tileSize);
-            const tilePixels = tileData.data;
-            const averageColor = calculateAverageColor(tilePixels);
-            
-            if( averageColor[0] != 235 && averageColor[0] != 119){
-              console.log(checkAverageColor(averageColor));
-            }
-          } 
+          if( result != 0 ){
+            exponent++;
+          }
         }
+
+        console.log(result);
       };
     };
 
