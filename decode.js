@@ -49,6 +49,18 @@ function checkAverageColor(averageColorArray){
   return bestScoreIndex;
 }
 
+function convertBase10ToText(base10Number){
+  let ret = "";
+
+  while(base10Number > 0){
+    const rem = base10Number % 55;
+    base10Number = Math.floor(base10Number/55);
+    ret = lookup[rem] + ret;
+  }
+
+  return ret;
+}
+
 function calculateAverageColor(tilePixels){
   let rSum = 0;
   let gSum = 0;
@@ -73,6 +85,8 @@ function handleFileSelect(event) {
     reader.onload = function (e) {
       const image = new Image();
       image.src = e.target.result;
+
+      document.getElementById("download").setAttribute("style", "visibility: hidden;")
 
       image.onload = function () {
         const canvas = document.getElementById('canvas');
@@ -114,8 +128,6 @@ function handleFileSelect(event) {
 
         const tileSequance = generateSequanceOfTiles(boardSize);
         const tileSize = image.width / boardSize;
-
-        console.log(tileSequance)
         
         let result = 0;
         let exponent = 0;
@@ -130,6 +142,7 @@ function handleFileSelect(event) {
           
           if( averageColor[0] != 235 && averageColor[0] != 119){
             const coef = checkAverageColor(averageColor) + 1;
+            console.log(tileSequance[i][1],tileSequance[i][0],paths[coef-1]);
             result += coef * 13 ** exponent;
           }
 
@@ -138,7 +151,11 @@ function handleFileSelect(event) {
           }
         }
 
-        console.log(result);
+        console.log(result)
+
+        const decodedText = convertBase10ToText(result)
+        document.getElementById("resultContainer").setAttribute("style", "")
+        document.getElementById("result").innerText = decodedText;
       };
     };
 

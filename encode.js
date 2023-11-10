@@ -1,7 +1,3 @@
-var m_w = 123456789;
-var m_z = 987654321;
-var mask = 0xffffffff;
-
 function ClearCanvas() {
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")
@@ -14,17 +10,13 @@ function GetText() {
   return text
 }
 
-function ConvertTextToBase10(text){
+function ConvertTextToBase55(text){
   //This function assumes that input is in base 55 as if characters were digits of a number
 
   //This function only supports following characters
   //ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz., and space
 
   let ret = 0;
-  const lookup = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', ',']
-  //Setting the space as the first character of dictionary removes spaces on the beggining of text
-  //This function utilises the fact that leading zeros arent represented as a number
-
 
   for(let i = text.length - 1; i >= 0 ; i--){
     const letter = text[i]
@@ -95,7 +87,7 @@ function generateSequanceOfTiles(size){
 
 async function Encode() {
   const input = GetText();
-  const chessboardSeed = ConvertNumberToBase13(ConvertTextToBase10(input))
+  const chessboardSeed = ConvertNumberToBase13(ConvertTextToBase55(input))
   const requiredTiles = chessboardSeed.toString().length;
   const requiredBoardSize = Math.ceil(Math.sqrt(requiredTiles))
   const actualBoardSize = Math.max(requiredBoardSize, 8) // standard chess board is 8x8
@@ -104,6 +96,7 @@ async function Encode() {
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")  
   const tileSequance = generateSequanceOfTiles(actualBoardSize);
+  document.getElementById("resultContainer").setAttribute("style", "visibility: hidden;")
 
   canvas.width = canvasSize;
   canvas.height = canvasSize;
