@@ -33,8 +33,25 @@ function ConvertNumberToBase13(input){
   return input.toString(13)
 }
 
+function isInputValid(text){
+  let ret = true;
+  for(let i = text.length - 1; i >= 0 ; i--){
+    const letter = text[i]
+    const index = lookup.indexOf(letter)
+    ret = !( index == -1 ) 
+  }
+
+}
+
 async function Encode() {
   const input = GetText();
+
+  if( !isInputValid(input) ){
+    alert("Input is invalid. Supported characters are: space and ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,")
+    document.getElementById("input").value = "";
+    return;
+  }
+
   const chessboardSeed = ConvertNumberToBase13(ConvertTextToBase55(input))
   const requiredTiles = chessboardSeed.toString().length;
   const requiredBoardSize = Math.ceil(Math.sqrt(requiredTiles))
