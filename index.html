@@ -1,15 +1,25 @@
 <html>
   <head>
     <title> Text 2 Chess </title>
+    <script src="colorSignatures.js"></script>
     <script src="preload.js"></script>
     <script defer src="encode.js"></script>
+    <script defer src="decode.js"></script>
   </head>
   <body>
     <center>
       <div>
-        <p>Paste txt:<br><textarea id="input"></textarea></p>
+        <p>
+          Paste txt:<br>
+          <textarea id="input"></textarea>
+        </p>
         <button onclick="Encode()">Encode on a chessboard</button>
-		  </div> 
+        <p>
+          Upload chessboard.png:<br>
+          <input id="fileInput" type="file" accept=".png">
+        </p>
+        <button onclick="Decode()">Decode</button>
+      </div> 
       <div>
         <canvas id="canvas" width="80px" height="80px"></canvas>
         <br>

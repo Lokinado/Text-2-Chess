@@ -1,0 +1,146 @@
+document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function getPixelIndex(x,y, image){
+  return y * image.width * 4 + x * 4;
+}
+
+function calculateError(averageColorArray, expectedColorArray){
+  const redError = Math.abs(expectedColorArray[0]-averageColorArray[0])
+  const greenError = Math.abs(expectedColorArray[1]-averageColorArray[1])
+  const blueError = Math.abs(expectedColorArray[2]-averageColorArray[2])
+
+  return [redError, greenError, blueError];
+}
+
+function getScoreFromError(ErrorArray){
+  const RedComp = ErrorArray[0] ** 2;
+  const GreenComp = ErrorArray[1] ** 2;
+  const BlueComp = ErrorArray[2] ** 2;
+  
+  return Math.sqrt(RedComp + GreenComp + BlueComp);
+}
+
+function checkAverageColor(averageColorArray){
+  let bestScore = 10**6;
+  let bestScoreIndex = 0;
+  for(let i = 0 ; i < colorSygnaturesDict.length; i ++){
+    let score = 0;
+
+    const sigError = [
+      calculateError(averageColorArray, colorSygnaturesDict[i][0]),
+      calculateError(averageColorArray, colorSygnaturesDict[i][1])
+    ]
+
+    score = Math.min(getScoreFromError(sigError[0]),getScoreFromError(sigError[1]))
+    if(score < bestScore){
+      bestScore = score;
+      bestScoreIndex = i;
+    }
+  }
+  return bestScoreIndex;
+}
+
+function calculateAverageColor(tilePixels){
+  let rSum = 0;
+  let gSum = 0;
+  let bSum = 0;
+  for(let i = 0 ; i < tilePixels.length ; i += 4){
+    rSum += tilePixels[i];
+    gSum += tilePixels[i + 1];
+    bSum += tilePixels[i + 2];
+  }
+  rSum /= (tilePixels.length / 4);
+  gSum /= (tilePixels.length / 4);
+  bSum /= (tilePixels.length / 4);
+  return [rSum, gSum, bSum];
+}
+
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+
+  if (file && file.type === 'image/png') {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const image = new Image();
+      image.src = e.target.result;
+
+      image.onload = function () {
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        
+        // Set the canvas size to match the image size
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        // Draw the image on the canvas
+        context.drawImage(image, 0, 0, image.width, image.height);
+
+
+        const imageData = context.getImageData(0, 0, image.width, image.height);
+        const pixels = imageData.data;
+
+        let boardSize = 0;
+        let lastColor = "";
+        let colorRepetition = 0;
+        for (let i = 0 ; i < 4*image.width; i+=4){
+          const red = pixels[i];
+          const green = pixels[i + 1];
+          const blue = pixels[i + 2];
+          const color = rgbToHex(red,green,blue)
+  
+          if(color != lastColor){
+            lastColor = color;
+            colorRepetition = 0;
+          } else {
+            colorRepetition++;
+          }
+
+          if(colorRepetition == 4){
+            boardSize++;
+          }
+        }
+
+        console.log(boardSize);
+
+        const tileSize = image.width / boardSize;
+
+        for(let i = 0 ; i < boardSize; i++){
+          for(let j = 0 ; j < boardSize; j++){
+            
+            const x = (j * tileSize); 
+            const y = (i * tileSize);
+            const index = getPixelIndex(x,y,image);
+
+            //context.fillRect(x,y,1,1);
+
+            const red = pixels[index];
+            const green = pixels[index + 1];
+            const blue = pixels[index + 2];
+
+            const tileData = context.getImageData(x, y, tileSize, tileSize);
+            const tilePixels = tileData.data;
+            const averageColor = calculateAverageColor(tilePixels);
+            
+            if( averageColor[0] != 235 && averageColor[0] != 119){
+              console.log(checkAverageColor(averageColor));
+            }
+          } 
+        }
+      };
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    alert('Please select a valid PNG file.');
+  }
+}

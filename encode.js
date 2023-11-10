@@ -100,7 +100,7 @@ async function Encode() {
   const requiredBoardSize = Math.ceil(Math.sqrt(requiredTiles))
   const actualBoardSize = Math.max(requiredBoardSize, 8) // standard chess board is 8x8
   const canvasSize = Math.min(window.innerWidth, window.innerHeight) * 0.8
-  const tileSize = canvasSize / actualBoardSize; 
+  const tileSize = Math.floor(canvasSize / actualBoardSize); 
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")  
   const tileSequance = generateSequanceOfTiles(actualBoardSize);
@@ -122,7 +122,6 @@ async function Encode() {
     const y = tileSequance[i][1];
     const state = parseInt(seedStr[i],13);
     if( state != 0 ){
-      console.log(pawns)
       ctx.drawImage(pawns[state-1], x*tileSize, y*tileSize,tileSize,tileSize);
     }
   }
