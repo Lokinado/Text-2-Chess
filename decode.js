@@ -1,18 +1,5 @@
 document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 
-function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-function getPixelIndex(x,y, image){
-  return y * image.width * 4 + x * 4;
-}
-
 function calculateError(averageColorArray, expectedColorArray){
   const redError = Math.abs(expectedColorArray[0]-averageColorArray[0])
   const greenError = Math.abs(expectedColorArray[1]-averageColorArray[1])

@@ -1,8 +1,9 @@
 <html>
   <head>
     <title> Text 2 Chess </title>
-    <script src="colorSignatures.js"></script>
     <script src="preload.js"></script>
+    <script src="utility.js"></script>
+    <script src="colorSignatures.js"></script>
     <script defer src="encode.js"></script>
     <script defer src="decode.js"></script>
   </head>
@@ -18,7 +19,6 @@
           Upload chessboard.png:<br>
           <input id="fileInput" type="file" accept=".png">
         </p>
-        <button onclick="Decode()">Decode</button>
       </div> 
       <div id="resultContainer" style="visibility: hidden;">
         Result: <span id="result"></span>
