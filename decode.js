@@ -40,8 +40,8 @@ function convertBase10ToText(base10Number){
   let ret = "";
 
   while(base10Number > 0){
-    const rem = base10Number % 55;
-    base10Number = Math.floor(base10Number/55);
+    const rem = base10Number % BigInt(55);
+    base10Number /= BigInt(55); 
     ret = lookup[rem] + ret;
   }
 
@@ -111,34 +111,28 @@ function handleFileSelect(event) {
           }
         }
 
-        console.log(boardSize);
-
         const tileSequance = generateSequanceOfTiles(boardSize);
-        const tileSize = image.width / boardSize;
+        const tileSize = Math.floor(image.width / boardSize);
         
-        let result = 0;
-        let exponent = 0;
+        let result = BigInt(0);
+        let exponent = BigInt(0);
         for(let i = tileSequance.length - 1; i >= 0 ; i--){
           const x = (tileSequance[i][0] * tileSize); 
           const y = (tileSequance[i][1] * tileSize);
-          const index = getPixelIndex(x,y,image);
 
           const tileData = context.getImageData(x, y, tileSize, tileSize);
           const tilePixels = tileData.data;
           const averageColor = calculateAverageColor(tilePixels);
-          
+
           if( averageColor[0] != 235 && averageColor[0] != 119){
-            const coef = checkAverageColor(averageColor) + 1;
-            console.log(tileSequance[i][1],tileSequance[i][0],paths[coef-1]);
-            result += coef * 13 ** exponent;
+            const coef = BigInt(checkAverageColor(averageColor) + 1);
+            result += coef * BigInt(13) ** exponent;
           }
 
           if( result != 0 ){
             exponent++;
           }
         }
-
-        console.log(result)
 
         const decodedText = convertBase10ToText(result)
         document.getElementById("resultContainer").setAttribute("style", "")
