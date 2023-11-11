@@ -38,7 +38,6 @@ function isInputValid(text){
   for(let i = text.length - 1; i >= 0 ; i--){
     const letter = text[i]
     const index = lookup.indexOf(letter)
-    console.log(letter, index)
     ret &= !( index == -1 ) 
   }
 
