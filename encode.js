@@ -77,9 +77,10 @@ async function Encode() {
   }
 
   const seedStr = chessboardSeed.toString();
-  for(let i = 0 ; i < requiredTiles ; i ++){
-    const x = tileSequance[i][0];
-    const y = tileSequance[i][1];
+  for(let i = requiredTiles-1 ; i >= 0 ; i--){
+    const tileSequanceIndex = (requiredTiles - 1) - i;
+    const x = tileSequance[tileSequanceIndex][0];
+    const y = tileSequance[tileSequanceIndex][1];
     const state = parseInt(seedStr[i],13);
     if( state != 0 ){
       ctx.drawImage(pawns[state-1], x*tileSize, y*tileSize,tileSize,tileSize);

@@ -115,8 +115,7 @@ function handleFileSelect(event) {
         const tileSize = Math.floor(image.width / boardSize);
         
         let result = BigInt(0);
-        let exponent = BigInt(0);
-        for(let i = tileSequance.length - 1; i >= 0 ; i--){
+        for(let i = tileSequance.length-1; i >= 0 ; i--){
           const x = (tileSequance[i][0] * tileSize); 
           const y = (tileSequance[i][1] * tileSize);
 
@@ -126,13 +125,14 @@ function handleFileSelect(event) {
 
           if( averageColor[0] != 235 && averageColor[0] != 119){
             const coef = BigInt(checkAverageColor(averageColor) + 1);
-            result += coef * BigInt(13) ** exponent;
+            result += coef;
           }
 
-          if( result != 0 ){
-            exponent++;
+          if(result != 0){
+            result *= 13n;
           }
         }
+        result /= 13n;
 
         const decodedText = convertBase10ToText(result)
         document.getElementById("resultContainer").setAttribute("style", "")
