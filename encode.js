@@ -41,6 +41,7 @@ function isInputValid(text){
     ret = !( index == -1 ) 
   }
 
+  return ret;
 }
 
 async function Encode() {
