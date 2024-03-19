@@ -69,7 +69,7 @@ If you want to host it by yourself then you can. Simply clone this repo and then
 <br>
 
 # Roadmap
-I really want to add AI based image detection for this project. I have already decided what tools I want to use and stay tuned for future updates 😄.
+I really want to add AI based image detection for this project. I have already decided what tools I want to use so stay tuned for future updates 😄.
 
 <br>
 
