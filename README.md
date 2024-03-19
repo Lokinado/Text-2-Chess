@@ -6,6 +6,7 @@ date = "2023-11-09"
 description = "Text-2-Chess is a project that converts written text into unique chess positions with a built-in decoder function for easy interpretation of the resulting positions"
 summary = "Text-2-Chess is a project that converts written text into unique chess positions with a built-in decoder function for easy interpretation of the resulting positions"
 draft="false"
+demourl="https://kbrw.pl/text2chess"
 tags = [
     "html", 
     "javascript",
