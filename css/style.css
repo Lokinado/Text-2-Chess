@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    font-family: Montserrat;
+    background-color: #222;
+    color: white;
+    height: auto;
+}
+
+div.twopanel{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+div.twopanel > div.panel{
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+}
+
+div.twopanel > div.panel:nth-child(1){
+    width: 25%;
+}
+
+@media only screen and (max-width: 1200px) {
+    div.twopanel > div.panel:nth-child(1){
+        width: 50%;
+    }
+}
+
+div.twopanel > div.panel:nth-child(2){
+    width: auto;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+button.primary{
+    text-align: center;
+    background-color: #2b2b2b;
+    border: none;
+    border-radius: 8px;
+    color: inherit;
+    font-family: inherit;
+    font-size: 24px;
+    padding: 8px 24px 8px 24px;
+    cursor: pointer;
+    margin: 8px;
+}
+
+button.primary:hover{
+    background-color: #3f3f3f;
+}
+
+#fileInput {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.custom-file-input {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.custom-file-input:hover {
+    background-color: #0056b3;
+}
+
+.custom-file-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.custom-file-input-label {
+    font-size: 16px;
+}
+
+.custom-file-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.file-name {
+    margin-top: 5px;
+    font-style: italic;
+    color: #666;
+}
+
+div.result {
+    width: 100%;
+    font-size: 24px;
+    background-color: #2b2b2b;
+    border-radius: 8px;
+    padding: 8px 0px 8px 0px;
+}
+

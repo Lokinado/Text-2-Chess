@@ -65,6 +65,7 @@ function calculateAverageColor(tilePixels){
 
 function handleFileSelect(event) {
   const file = event.target.files[0];
+  event.target.value = null;
 
   if (file && file.type === 'image/png') {
     const reader = new FileReader();
@@ -73,19 +74,20 @@ function handleFileSelect(event) {
       const image = new Image();
       image.src = e.target.result;
 
-      document.getElementById("download").setAttribute("style", "visibility: hidden;")
+      document.getElementById("output").setAttribute("style", "")
+      document.getElementById("download").setAttribute("style", "display: none;")
 
       image.onload = function () {
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');
-        
+
         // Set the canvas size to match the image size
         canvas.width = image.width;
         canvas.height = image.height;
+        canvas.willReadFrequently = true;
 
         // Draw the image on the canvas
         context.drawImage(image, 0, 0, image.width, image.height);
-
 
         const imageData = context.getImageData(0, 0, image.width, image.height);
         const pixels = imageData.data;

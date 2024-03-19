@@ -1,14 +1,53 @@
 <html>
   <head>
     <title> Text 2 Chess </title>
-    <script src="preload.js"></script>
-    <script src="utility.js"></script>
-    <script src="colorSignatures.js"></script>
-    <script defer src="encode.js"></script>
-    <script defer src="decode.js"></script>
+    <script src="js/preload.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/colorSignatures.js"></script>
+    <script defer src="js/encode.js"></script>
+    <script defer src="js/decode.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
-    <center>
+
+    <div class="twopanel">
+      <div class="panel">
+        <p>
+          Paste txt:<br>
+          <textarea id="input"></textarea>
+        </p>
+        <button class="primary" onclick="Encode()">Encode on a chessboard</button>
+        
+        <div class="custom-file-input-wrapper">
+          <label for="fileInput" class="custom-file-input">
+            <span class="custom-file-input-label">Decode chessboard.png</span>
+          </label>
+          <input id="fileInput" type="file" accept=".png">
+        </div>
+
+        <!-- <p>
+          Upload chessboard.png:<br>
+          <input id="fileInput" type="file" accept=".png">
+        </p> -->
+        <div id="resultContainer" style="display: none;">
+          <br>
+          Decoded Text:
+          <div class="result" id="result">
+            Very Long Text Very Long Text Very Long Text Very Long Text Very Long Text Very Long Text Very Long Text Very Long Text Very Long Text 
+          </div>
+        </div>
+      </div>
+      <div id="output" class="panel" style="display: none;">
+        <canvas id="canvas" width="80px" height="80px"></canvas>
+        <br>
+        <button id="download" class="primary" onclick="download()" style="visibility: hidden;">Download Chessboard</button>
+      </div>
+    </div>
+
+    <!-- <center>
       <div>
         <p>
           Paste txt:<br>
@@ -28,6 +67,6 @@
         <br>
         <button id="download" onclick="download()" style="visibility: hidden;">Download Chessboard</button>
       </div>
-    </center>
+    </center> -->
   </body>
 </html>

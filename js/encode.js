@@ -58,15 +58,16 @@ async function Encode() {
   const requiredBoardSize = Math.ceil(Math.sqrt(requiredTiles))
   const actualBoardSize = Math.max(requiredBoardSize, 8) // standard chess board is 8x8
   const canvasSize = Math.min(window.innerWidth, window.innerHeight) * 0.8
-  const tileSize = Math.max(Math.floor(canvasSize / actualBoardSize), 100) 
+  const tileSize = Math.max(Math.floor(canvasSize / actualBoardSize), 110) 
   const actualCanvasSize = tileSize * actualBoardSize;
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")  
   const tileSequance = generateSequanceOfTiles(actualBoardSize);
-  document.getElementById("resultContainer").setAttribute("style", "visibility: hidden;")
+  document.getElementById("resultContainer").setAttribute("style", "display: none;")
 
   canvas.width = actualCanvasSize;
   canvas.height = actualCanvasSize;
+  canvas.willReadFrequently = true;
 
   ClearCanvas();
   for(let i = 0 ; i < actualBoardSize; i ++){
@@ -87,6 +88,7 @@ async function Encode() {
     }
   }
 
+  document.getElementById("output").setAttribute("style", "")
   document.getElementById("download").setAttribute("style", "")
 }
 
