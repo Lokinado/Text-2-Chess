@@ -31,7 +31,7 @@ categories = [
   <p align="center">
     Text-2-Chess is a project that converts written text into unique chess positions with a built-in decoder function for easy interpretation of the resulting positions
     <br />
-    <a href="https://kbrw.pl/text2chess/"><strong>View Demo»</strong></a>
+    <a href="https://github.com/Lokinado/Text-2-Chess"><strong>View Demo»</strong></a>
   </p>
 </p>
 
